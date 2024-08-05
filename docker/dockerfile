@@ -1,0 +1,17 @@
+# Stage 1: Build stage
+FROM alpine:latest AS build-stage
+
+# Copy index.html into /app directory
+COPY index.html /app/index.html
+
+# Stage 2: Final stage
+FROM nginx:alpine
+
+# Copy the index.html from the build stage to the Nginx html directory
+COPY --from=build-stage /app/index.html /usr/share/nginx/html/index.html
+
+# Expose port 80 to be able to access the web server
+EXPOSE 80
+
+# Command to start Nginx
+CMD ["nginx", "-g", "daemon off;"]
