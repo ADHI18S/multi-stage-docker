@@ -1,0 +1,16 @@
+
+FROM alpine:latest AS build-stage
+
+COPY index.html /app/index.html
+
+FROM nginx:alpine
+
+#---------------------------------------------------------------------
+COPY --from=build-stage /app/index.html /usr/share/nginx/html/index.html
+
+
+EXPOSE 80
+
+
+CMD ["nginx", "-g", "daemon off;"]
+  
